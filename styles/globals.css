@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  textarea {
+    @apply p-4 bg-gray-50 border-2 border-gray-200 rounded-2xl outline-gray-400 read-only:cursor-not-allowed read-only:outline-none read-only:border-none;
+  }
+
+  .link {
+    @apply text-indigo-500 hover:underline;
+  }
+
+  .btn {
+    @apply text-sm font-medium px-3 py-1.5 transition duration-200 rounded-md outline-none select-none;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-500 text-gray-50 hover:bg-indigo-600;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+  }
+}
