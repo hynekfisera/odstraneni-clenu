@@ -45,8 +45,7 @@ export default function Home() {
           <div className="mb-4">
             <h1 className="text-lg font-semibold mb-2 text-gray-800">Odstranění členů z textu</h1>
             <div className="text-sm text-gray-600">
-              Tlačítko <i>vložit</i> vloží obsah schránky do levého pole. Po jakékoliv změně levého pole se pravé pole automaticky vygeneruje podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko <i>zkopírovat</i> do schránky uloží obsah pravého pole. Tlačítko{" "}
-              <i>automaticky</i> provede obě akce najednou, stačí tedy mít ve schránce uložení text, který je potřeba upravit, a kliknutím na toto tlačítko se schránka přepíše na upravený text.{" "}
+              Tlačítko <i>vložit ze schránky</i> vloží obsah schránky do levého pole. Po jakékoliv změně levého pole se pravé pole automaticky vygeneruje podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko <i>zkopírovat do schránky</i> uloží obsah pravého pole.
               <button
                 className="underline select-none"
                 onClick={() =>
