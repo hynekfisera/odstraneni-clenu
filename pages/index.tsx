@@ -37,7 +37,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Odstranění členů</title>
+        <title>Odstranění členů z textu</title>
+        <meta name="description" content="Nástroj na odstranění členů z textu" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="px-4 lg:px-8 flex flex-col gap-4 pt-8">
