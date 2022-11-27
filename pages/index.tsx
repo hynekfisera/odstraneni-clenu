@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowTurnDown, faArrowTurnUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -10,7 +12,7 @@ export default function Home() {
 
   const generate = useCallback(
     (input: string): string => {
-      let array = input.split(" ");
+      let array = input.replace(/\s+/g, " ").trim().split(" ");
       let newArray = array.map((word, i) => {
         const articles = ["a", "an", "the", "A", "An", "The"];
         if (articles.includes(word)) {
@@ -31,12 +33,6 @@ export default function Home() {
   useEffect(() => {
     setOutput(generate(input));
   }, [input, mode, count, generate]);
-
-  const onAuto = async () => {
-    const temp = await navigator.clipboard.readText();
-    setInput(temp);
-    navigator.clipboard.writeText(generate(temp));
-  };
 
   return (
     <>
@@ -63,37 +59,48 @@ export default function Home() {
               </button>
             </div>
           </div>
+          <div className="mb-2">
+            <label htmlFor="language" className="text-sm font-medium text-gray-900 select-none">
+              Jazyk textu:{" "}
+            </label>
+            <select name="language" id="language" className="text-sm outline-none border-2 rounded-lg p-1 border-transparent focus:border-indigo-500">
+              <option value="en">Angličtina</option>
+            </select>
+          </div>
           <div className="flex items-center mb-3">
             <input checked={mode} onChange={(e) => setMode(e.target.checked)} id="underscores" type="radio" name="mode" className="accent-indigo-500 outline-none" />
             <label htmlFor="underscores" className="ml-2 text-sm font-medium text-gray-900 select-none">
               Nahradit podtržítky {mode && `(${count})`}
             </label>
-            {mode && <input type="range" name="count" id="count" value={count} onChange={(e) => setCount(+e.target.value)} min={1} max={8} step={1} className="outline-none accent-indigo-500" />}
+            {mode && <input type="range" name="count" id="count" value={count} onChange={(e) => setCount(+e.target.value)} min={1} max={8} step={1} className="outline-none accent-indigo-500 ml-1" />}
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mb-3">
             <input checked={!mode} onChange={(e) => setMode(!e.target.checked)} id="nothing" type="radio" name="mode" className="accent-indigo-500 outline-none" />
             <label htmlFor="nothing" className="ml-2 text-sm font-medium text-gray-900 select-none">
               Odstranit úplně
             </label>
           </div>
         </section>
-        <section className="flex flex-wrap gap-2">
-          <button className="btn btn-secondary" onClick={async () => setInput(await navigator.clipboard.readText())}>
-            Vložit
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigator.clipboard.writeText(output)}>
-            Zkopírovat
-          </button>
-          <button className="btn btn-primary" onClick={onAuto}>
-            Automaticky
-          </button>
-          <button className="btn btn-secondary" onClick={() => setInput("")}>
-            Reset
-          </button>
-        </section>
         <section className="grid lg:grid-cols-2 gap-8">
-          <textarea placeholder="Zdroj" name="input" id="input" rows={20} value={input} onChange={(e) => setInput(e.target.value)}></textarea>
-          <textarea placeholder="Výsledek" name="output" id="output" rows={20} value={output} readOnly></textarea>
+          <div className="flex flex-col gap-3 w-full">
+            <section className="flex flex-wrap gap-2">
+              <button className="btn btn-primary" onClick={async () => setInput(await navigator.clipboard.readText())}>
+                Vložit ze schránky <FontAwesomeIcon icon={faArrowTurnDown} />
+              </button>
+              <button className="btn btn-secondary" onClick={() => setInput("")}>
+                Vymazat pole
+              </button>
+            </section>
+            <textarea placeholder="Zdroj" name="input" id="input" rows={20} value={input} onChange={(e) => setInput(e.target.value)}></textarea>
+          </div>
+          <div className="flex flex-col gap-3 w-full">
+            <section className="flex flex-wrap gap-2">
+              <button className="btn btn-primary" onClick={() => navigator.clipboard.writeText(output)}>
+                Zkopírovat do schránky <FontAwesomeIcon icon={faArrowTurnUp} />
+              </button>
+            </section>
+            <textarea placeholder="Výsledek" name="output" id="output" rows={20} value={output} readOnly></textarea>
+          </div>
         </section>
       </main>
       <footer className="flex justify-center gap-1 text-gray-400 my-8">

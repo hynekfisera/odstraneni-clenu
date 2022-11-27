@@ -4,7 +4,7 @@
 
 @layer components {
   textarea {
-    @apply p-4 bg-gray-50 border-2 border-gray-200 rounded-2xl outline-gray-400 read-only:cursor-not-allowed read-only:outline-none read-only:border-none;
+    @apply p-4 bg-gray-50 border-2 border-gray-200 rounded-2xl outline-indigo-500 read-only:cursor-not-allowed read-only:outline-none read-only:border-none;
   }
 
   .link {
