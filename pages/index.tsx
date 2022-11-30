@@ -78,18 +78,31 @@ export default function Home() {
               <option value="en">Angličtina</option>
             </select>
           </div>
-          <div className="flex items-center mb-3">
-            <input checked={mode} onChange={(e) => setMode(e.target.checked)} id="underscores" type="radio" name="mode" className="accent-indigo-500 outline-none" />
-            <label htmlFor="underscores" className="ml-2 text-sm font-medium text-gray-900 select-none">
-              Nahradit podtržítky {mode && `(${count})`}
-            </label>
-            {mode && <input type="range" name="count" id="count" value={count} onChange={(e) => setCount(+e.target.value)} min={1} max={8} step={1} className="outline-none accent-indigo-500 ml-1" />}
+          <div className="flex flex-wrap gap-2 items-center mb-3">
+            <div>
+              <input checked={mode} onChange={(e) => setMode(e.target.checked)} id="underscores" type="radio" name="mode" className="accent-indigo-500 outline-none" />
+              <label htmlFor="underscores" className="ml-2 text-sm font-medium text-gray-900 select-none">
+                Nahradit podtržítky {mode && `(${count})`}
+              </label>
+              {mode && <input type="range" name="count" id="count" value={count} onChange={(e) => setCount(+e.target.value)} min={1} max={8} step={1} className="outline-none accent-indigo-500 ml-1" />}
+            </div>
+            <div className="text-sm font-normal ml-2">
+              I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on <span className="text-red-500">a</span> piece of
+              paper. =&gt; I wrote <span className="text-green-500">___</span> phrase &quot;<span className="text-orange-500">___</span> apple <span className="text-blue-500">___</span> day keeps <span className="text-purple-500">___</span> doctor away&quot; on{" "}
+              <span className="text-red-500">___</span> piece of paper.
+            </div>
           </div>
-          <div className="flex items-center mb-3">
-            <input checked={!mode} onChange={(e) => setMode(!e.target.checked)} id="nothing" type="radio" name="mode" className="accent-indigo-500 outline-none" />
-            <label htmlFor="nothing" className="ml-2 text-sm font-medium text-gray-900 select-none">
-              Odstranit úplně
-            </label>
+          <div className="flex flex-wrap gap-2 items-center mb-3">
+            <div>
+              <input checked={!mode} onChange={(e) => setMode(!e.target.checked)} id="nothing" type="radio" name="mode" className="accent-indigo-500 outline-none" />
+              <label htmlFor="nothing" className="ml-2 text-sm font-medium text-gray-900 select-none">
+                Odstranit úplně
+              </label>
+            </div>
+            <div className="text-sm font-normal ml-2">
+              I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on <span className="text-red-500">a</span> piece of
+              paper. =&gt; I wrote phrase &quot;Apple day keeps doctor away&quot; on piece of paper.
+            </div>
           </div>
         </section>
         <section className="grid lg:grid-cols-2 gap-8">
