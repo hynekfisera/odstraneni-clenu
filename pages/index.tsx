@@ -12,12 +12,23 @@ export default function Home() {
 
   const generate = useCallback(
     (input: string): string => {
-      let array = input.replace(/\s+/g, " ").trim().split(" ");
+      console.log(input);
+
+      let array = input
+        .replace(/[ \t]+/g, " ")
+        .trim()
+        .split(" ");
       let newArray = array.map((word, i) => {
-        const articles = ["a", "an", "the", "A", "An", "The"];
+        const articles = ["a", "an", "the", "A", "An", "The", "'a", "'an", "'the", "'A", "'An", "'The", '"a', '"an', '"the', '"A', '"An', '"The'];
         if (articles.includes(word)) {
-          return mode ? "_".repeat(count) + " " : "";
-        } else if (i !== 0 && articles.includes(array[i - 1]) && array[i - 1][0] === array[i - 1][0].toUpperCase()) {
+          if (word.startsWith("'")) {
+            return mode ? "'" + "_".repeat(count) + " " : "'";
+          } else if (word.startsWith('"')) {
+            return mode ? '"' + "_".repeat(count) + " " : '"';
+          } else {
+            return mode ? "_".repeat(count) + " " : "";
+          }
+        } else if (i !== 0 && articles.includes(array[i - 1]) && (array[i - 1].startsWith("'") || array[i - 1].startsWith('"') ? array[i - 1][1] === array[i - 1][1].toUpperCase() : array[i - 1][0] === array[i - 1][0].toUpperCase())) {
           return mode ? word + " " : word[0].toUpperCase() + word.slice(1) + " ";
         } else {
           return word + " ";
