@@ -9,6 +9,7 @@ export default function Home() {
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState(true);
   const [count, setCount] = useState(3);
+  const [copy, setCopy] = useState(false);
 
   const generate = useCallback(
     (input: string): string => {
@@ -45,6 +46,12 @@ export default function Home() {
     setOutput(generate(input));
   }, [input, mode, count, generate]);
 
+  const onCopy = () => {
+    navigator.clipboard.writeText(output);
+    setCopy(true);
+    setTimeout(() => setCopy(false), 800);
+  };
+
   return (
     <>
       <Head>
@@ -55,17 +62,17 @@ export default function Home() {
       <main className="px-4 lg:px-8 flex flex-col gap-4 pt-8">
         <section>
           <div className="mb-4">
-            <h1 className="text-lg font-semibold mb-2 text-gray-800">Pomůcka pro výuku jazyků - odstranění členů z textu</h1>
+            <h1 className="text-lg font-semibold mb-4 text-gray-800">Pomůcka pro výuku jazyků - odstranění členů z textu</h1>
             <div className="text-sm text-gray-600">
-              Tlačítko <i>Vložit ze schránky</i> vloží obsah schránky do levého pole. Po jakékoliv změně levého pole se do pravého pole automaticky vygeneruje text podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko <i>Zkopírovat do schránky</i> uloží obsah pravého
-              pole do schránky.
+              Tlačítko <i>Vložit ze schránky</i> vloží obsah schránky do levého pole. Text je možné psát i ručně přímo do pole. Po jakékoliv změně levého pole se do pravého pole automaticky vygeneruje text podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko{" "}
+              <i>Zkopírovat do schránky</i> uloží obsah pravého pole do schránky.
             </div>
           </div>
           <div className="mb-4">
-            <label htmlFor="language" className="text-sm font-medium text-gray-900 select-none">
+            <label htmlFor="language" className="text-sm font-medium text-gray-900 select-none mr-1">
               Jazyk textu:{" "}
             </label>
-            <select name="language" id="language" className="text-sm outline-none border-2 rounded-lg p-1 border-transparent focus:border-indigo-500">
+            <select name="language" id="language" className="text-sm outline-none border-2 bg-gray-100 rounded-xl p-1.5 border-transparent focus:border-indigo-500">
               <option value="en">Angličtina</option>
               <option value="de" disabled>
                 Němčina (v přípravě)
@@ -76,26 +83,26 @@ export default function Home() {
             <div>
               <input checked={mode} onChange={(e) => setMode(e.target.checked)} id="underscores" type="radio" name="mode" className="accent-indigo-500 outline-none" />
               <label htmlFor="underscores" className="ml-2 text-sm font-medium text-gray-900 select-none cursor-pointer">
-                Nahradit podtržítky {mode && `(${count})`}
+                Nahradit členy podtržítky {mode && `(${count})`}
               </label>
               {mode && <input type="range" name="count" id="count" value={count} onChange={(e) => setCount(+e.target.value)} min={1} max={8} step={1} className="outline-none accent-indigo-500 ml-1" />}
             </div>
             <div className="text-sm font-normal ml-0.5">
-              Příklad: I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on <span className="text-red-500">a</span> piece
-              of paper. =&gt; I wrote <span className="text-green-500">___</span> phrase &quot;<span className="text-orange-500">___</span> apple <span className="text-blue-500">___</span> day keeps <span className="text-purple-500">___</span> doctor away&quot; on{" "}
-              <span className="text-red-500">___</span> piece of paper.
+              <span className="font-semibold">Příklad:</span> I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on{" "}
+              <span className="text-red-500">a</span> piece of paper. <span className="font-bold text-normal"> =&gt; </span> I wrote <span className="text-green-500">___</span> phrase &quot;<span className="text-orange-500">___</span> apple <span className="text-blue-500">___</span> day keeps{" "}
+              <span className="text-purple-500">___</span> doctor away&quot; on <span className="text-red-500">___</span> piece of paper.
             </div>
           </div>
           <div className={`flex flex-col gap-2 mb-3 hover:bg-gray-50 border-2 py-3 px-5 rounded-xl cursor-pointer ${mode ? "border-gray-300" : "border-indigo-400"}`} onClick={() => setMode(false)}>
             <div>
               <input checked={!mode} onChange={(e) => setMode(!e.target.checked)} id="nothing" type="radio" name="mode" className="accent-indigo-500 outline-none" />
               <label htmlFor="nothing" className="ml-2 text-sm font-medium text-gray-900 select-none cursor-pointer">
-                Odstranit úplně
+                Odstranit členy úplně
               </label>
             </div>
             <div className="text-sm font-normal ml-0.5">
-              Příklad: I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on <span className="text-red-500">a</span> piece
-              of paper. =&gt; I wrote phrase &quot;Apple day keeps doctor away&quot; on piece of paper.
+              <span className="font-semibold">Příklad:</span> I wrote <span className="text-green-500">the</span> phrase &quot;<span className="text-orange-500">An</span> apple <span className="text-blue-500">a</span> day keeps <span className="text-purple-500">the</span> doctor away&quot; on{" "}
+              <span className="text-red-500">a</span> piece of paper. <span className="font-bold text-normal"> =&gt; </span> I wrote phrase &quot;Apple day keeps doctor away&quot; on piece of paper.
             </div>
           </div>
         </section>
@@ -123,8 +130,14 @@ export default function Home() {
           </div>
           <div className="flex flex-col gap-3 w-full">
             <section className="flex flex-wrap gap-2">
-              <button className="btn btn-primary" onClick={() => navigator.clipboard.writeText(output)}>
-                Zkopírovat do schránky <FontAwesomeIcon icon={faArrowTurnUp} />
+              <button className="btn btn-primary" onClick={onCopy}>
+                {copy ? (
+                  "Zkopírováno!"
+                ) : (
+                  <>
+                    Zkopírovat do schránky <FontAwesomeIcon icon={faArrowTurnUp} />
+                  </>
+                )}
               </button>
             </section>
             <textarea placeholder="Výsledek" name="output" id="output" rows={20} value={output} readOnly></textarea>
