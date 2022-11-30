@@ -57,7 +57,8 @@ export default function Home() {
           <div className="mb-4">
             <h1 className="text-lg font-semibold mb-2 text-gray-800">Pomůcka pro výuku jazyků - odstranění členů z textu</h1>
             <div className="text-sm text-gray-600">
-              Tlačítko <i>vložit ze schránky</i> vloží obsah schránky do levého pole. Po jakékoliv změně levého pole se pravé pole automaticky vygeneruje podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko <i>zkopírovat do schránky</i> uloží obsah pravého pole.
+              Tlačítko <i>Vložit ze schránky</i> vloží obsah schránky do levého pole. Po jakékoliv změně levého pole se do pravého pole automaticky vygeneruje text podle aktuálního nastavení. Stane se tak i při jakékoliv změně nastavení. Tlačítko <i>Zkopírovat do schránky</i> uloží obsah pravého
+              pole do schránky.
             </div>
           </div>
           <div className="mb-4">
@@ -112,7 +113,7 @@ export default function Home() {
                   )
                 }
               >
-                Vložit testovací odstavec
+                Vložit testovací odstavec <FontAwesomeIcon icon={faArrowTurnDown} />
               </button>
               <button className="btn btn-secondary" onClick={() => setInput("")}>
                 Vymazat pole
