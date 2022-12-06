@@ -11,10 +11,8 @@ export default function Home() {
   const [count, setCount] = useState(3);
   const [copy, setCopy] = useState(false);
 
-  const generate = useCallback(
-    (input: string): string => {
-      console.log(input);
-
+  const _generate = useCallback(
+    (input: string) => {
       let array = input
         .replace(/[ \t]+/g, " ")
         .trim()
@@ -40,6 +38,18 @@ export default function Home() {
       return temp.trimEnd();
     },
     [count, mode]
+  );
+
+  const generate = useCallback(
+    (input: string): string => {
+      let temp = "";
+      const inputArray = input.split(/\r?\n/);
+      inputArray.forEach((paragraph, i) => {
+        temp += _generate(paragraph) + (i !== inputArray.length - 1 ? "\n" : "");
+      });
+      return temp;
+    },
+    [_generate]
   );
 
   useEffect(() => {
@@ -146,7 +156,7 @@ export default function Home() {
       </main>
       <footer className="flex justify-center gap-1 text-gray-400 my-8">
         Vytvořil
-        <Link href="https://hynekfisera.com/" className="link">
+        <Link href="https://hynekfisera.cz/" className="link">
           Hynek Fišera
         </Link>{" "}
         |{" "}
