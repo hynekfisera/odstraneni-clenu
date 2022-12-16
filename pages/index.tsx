@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,19 @@ export default function Home() {
   const [count, setCount] = useState(3);
   const [copy, setCopy] = useState(false);
 
+  const symbols: string[] = useMemo(() => ["'", '"', "”", "(", "[", "{", "“", "«", "„", "《", "`", "´", "‘", "’"], []);
+
+  const articles: string[] = useMemo(() => {
+    const lowercaseBaseArticles: string[] = ["a", "an", "the"];
+    const uppercaseBaseArticles: string[] = lowercaseBaseArticles.map((lowercaseArticle) => lowercaseArticle[0].toUpperCase() + lowercaseArticle.slice(1));
+    const baseArticles: string[] = [...lowercaseBaseArticles, ...uppercaseBaseArticles];
+    let result: string[] = [...baseArticles];
+    symbols.forEach((symbol) => {
+      baseArticles.forEach((baseArticle) => result.push(symbol + baseArticle));
+    });
+    return result;
+  }, [symbols]);
+
   const _generate = useCallback(
     (input: string) => {
       let array = input
@@ -18,12 +31,9 @@ export default function Home() {
         .trim()
         .split(" ");
       let newArray = array.map((word, i) => {
-        const articles = ["a", "an", "the", "A", "An", "The", "'a", "'an", "'the", "'A", "'An", "'The", '"a', '"an', '"the', '"A', '"An', '"The'];
         if (articles.includes(word)) {
-          if (word.startsWith("'")) {
-            return mode ? "'" + "_".repeat(count) + " " : "'";
-          } else if (word.startsWith('"')) {
-            return mode ? '"' + "_".repeat(count) + " " : '"';
+          if (symbols.includes(word[0])) {
+            return mode ? word[0] + "_".repeat(count) + " " : word[0];
           } else {
             return mode ? "_".repeat(count) + " " : "";
           }
@@ -37,7 +47,7 @@ export default function Home() {
       newArray.forEach((word) => (temp += word));
       return temp.trimEnd();
     },
-    [count, mode]
+    [count, mode, articles, symbols]
   );
 
   const generate = useCallback(
